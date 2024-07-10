@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from causalml.inference.meta import BaseXLearner, BaseRLearner, BaseDRLearner
 
 def simulation_1(n, p, beta=1, sigma=1):
     """
