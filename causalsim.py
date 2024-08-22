@@ -85,3 +85,31 @@ def Causal_LR(data):
     
     tau_hat_lr = bz + bzx*data['X1']
     return tau_hat_lr
+
+def Causal_XLearner(data, models):
+    X = data[[col for col in data.columns if col.startswith('X')]]
+    T = data['Z'] #treatment indicator
+    y = data['Y']
+    est = XLearner(models=models)
+    est.fit(y, T, X=X)
+    tau_hat_x = est.effect(X)
+    return tau_hat_x
+
+def Causal_DRLearner(data):
+    X = data[[col for col in data.columns if col.startswith('X')]]
+    T = data['Z'] #treatment indicator
+    y = data['Y']
+    est = DRLearner()
+    est.fit(y, T, X=X, W=None)
+    tau_hat_dr = est.effect(X)
+    return tau_hat_dr
+
+def Causal_CausalForest(data):
+    X = data[[col for col in data.columns if col.startswith('X')]]
+    T = data['Z'] #treatment indicator
+    y = data['Y']
+    est = CausalForestDML(discrete_treatment=True)
+    est.fit(y, T, X=X, W=None)
+    tau_hat_cf = est.effect(X)
+
+    return tau_hat_cf

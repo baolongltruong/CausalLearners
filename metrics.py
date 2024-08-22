@@ -55,3 +55,31 @@ def tau_plot(tau, tau_hat, title):
     
     
     plt.show()
+
+def bar_plot(ax, means, errs, xnames, ylabel, title):
+    means = means
+    errors = errs
+    categories = xnames
+    
+    bars = ax.bar(xnames, means, yerr=errs, capsize=5, color='red', edgecolor='black', alpha=0.7)
+    
+  
+    #ax.bar(categories, means, yerr=errors, capsize=5, color='red', edgecolor='black', alpha=0.7)
+    
+    # Adding labels and title
+    ax.set_xlabel('Learners')
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+
+    for bar, mean, error in zip(bars, means, errs):
+        height = bar.get_height()
+        ax.text(
+            bar.get_x() + bar.get_width() / 2,  # X-coordinate (center of the bar)
+            height + error + 0.02 * max(means),  # Y-coordinate (above the bar and error bar)
+            f'{mean:.2f}\n±{error:.2f}',  # Text displaying the mean and SD
+            ha='center',  # Center the text horizontally
+            va='bottom',  # Align text to the bottom of the bar
+            fontsize=10,  # Font size
+            color='black'  # Text color
+        )
+   
