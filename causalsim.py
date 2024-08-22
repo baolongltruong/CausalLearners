@@ -1,5 +1,12 @@
 import pandas as pd
 import numpy as np
+import metrics
+from econml.metalearners import XLearner
+from econml.dr import DRLearner
+from econml.dml import CausalForestDML
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+import matplotlib.pyplot as plt
 
 def simulation_simple(n, p, beta, sigma):
     """
@@ -54,7 +61,7 @@ def simulation_categorical(n, p, beta, sigma):
     df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
     
     # Treatment effect for individual i:  \tau_i = \beta * \1\{x_{i1} > 0\}
-    df['tau'] = beta * df['X1'].where(df['X1'] > 0, 0)
+    df['tau'] = beta * np.where(df['X1'] > 0, 1, 0)
     
     # Random treatment indicator: Z_i ~ Bernoulli(0.5)
     df['Z'] = np.random.binomial(1, 0.5, n)
@@ -64,3 +71,17 @@ def simulation_categorical(n, p, beta, sigma):
     df['Y'] = df['Z'] * df['tau'] + df['epsilon']
     
     return df
+
+def Causal_LR(data):
+    lr_xfit = data.copy()
+    lr_xfit['X1*Z'] = lr_xfit['X1'] * lr_xfit['Z'] #Setting interaction term
+    lr_xfit = lr_xfit[['X1', 'Z', 'X1*Z']]
+    
+    lr = LinearRegression() #Fit linear regression
+    lr.fit(lr_xfit, data['Y'])
+    
+    bz = lr.coef_[1]
+    bzx = lr.coef_[2]
+    
+    tau_hat_lr = bz + bzx*data['X1']
+    return tau_hat_lr
