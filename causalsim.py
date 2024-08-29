@@ -2,10 +2,13 @@ import pandas as pd
 import numpy as np
 import metrics
 from econml.metalearners import XLearner
+from econml.metalearners import TLearner
+from econml.metalearners import SLearner
 from econml.dr import DRLearner
 from econml.dml import CausalForestDML
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 
 def simulation_simple(n, p, beta, sigma):
@@ -87,6 +90,7 @@ def Causal_LR(data):
     return tau_hat_lr
 
 def Causal_XLearner(data, models):
+    
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
     y = data['Y']
@@ -95,7 +99,28 @@ def Causal_XLearner(data, models):
     tau_hat_x = est.effect(X)
     return tau_hat_x
 
+def Causal_SLearner(data, models):
+
+    X = data[[col for col in data.columns if col.startswith('X')]]
+    T = data['Z'] #treatment indicator
+    y = data['Y']
+    est = SLearner(overall_model=models)
+    est.fit(y, T, X=X)
+    tau_hat_s = est.effect(X)
+    return tau_hat_s
+
+def Causal_TLearner(data, models):
+   
+    X = data[[col for col in data.columns if col.startswith('X')]]
+    T = data['Z'] #treatment indicator
+    y = data['Y']
+    est = TLearner(models=models)
+    est.fit(y, T, X=X)
+    tau_hat_t = est.effect(X)
+    return tau_hat_t
+
 def Causal_DRLearner(data):
+
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
     y = data['Y']
@@ -105,6 +130,7 @@ def Causal_DRLearner(data):
     return tau_hat_dr
 
 def Causal_CausalForest(data):
+    
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
     y = data['Y']
