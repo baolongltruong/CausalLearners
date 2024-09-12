@@ -99,6 +99,29 @@ def simulation_XLearner_1(n, p):
     df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
     
     return df
+
+def sig(x):
+    return 2 / (1 + np.exp(-12 * (x - 1/2)))
+
+def simulation_XLearner_2(n,p):
+    X = np.random.normal(0, 1, (n, p))
+    
+    # Create DataFrame with covariates
+    df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
+    
+    # µ1(x) = 1/2ς(x1)ς(x2),µ0(x) = −1/2ς(x1)ς(x2)
+    df['tau'] = sig(df['X1'])*sig(df['X2'])
+
+    
+    df['Z'] = np.random.binomial(1, 0.5, n)
+    df['epsilon'] = np.random.normal(0, 1, n)
+
+
+    # µ1(x) = 1/2ς(x1)ς(x2),µ0(x) = −1/2ς(x1)ς(x2)
+    
+    df['Y'] =  -1/2*sig(df['X1'])*sig(df['X2']) + df['Z'] * df['tau']  + df['epsilon']
+    return df
+
     
 def Causal_LR(data):
     lr_xfit = data.copy()
