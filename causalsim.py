@@ -10,6 +10,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
+from scipy.stats import uniform
+
 
 def simulation_simple(n, p, beta, sigma):
     """
@@ -75,6 +77,29 @@ def simulation_categorical(n, p, beta, sigma):
     
     return df
 
+def simulation_XLearner_1(n, p):
+    # Covariates X_{ij} ~ N(0, 1)
+    X = np.random.normal(0, 1, (n, p))
+    
+    # Create DataFrame with covariates
+    df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
+    
+    # τ (x) = 8 I(x2 > 0.1) 
+    df['tau'] = 8 * np.where(df['X2'] > 0.1, 1, 0)
+    
+    # Random treatment indicator: Z_i ~ Bernoulli(0.01)
+    df['Z'] = np.random.binomial(1, 0.01, n)
+    df['epsilon'] = np.random.normal(0, 1, n)
+
+    #µ0(x) = xTβ + 5 I(x1 > 0.5), with β ∼ Unif [−5, 5]20
+
+    beta = uniform.rvs(-5, 10, size=p) 
+    mu0 = np.dot(df[[f'X{i+1}' for i in range(p)]], beta) + 5 * np.where(df['X1'] > 0.5, 1, 0)
+    
+    df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
+    
+    return df
+    
 def Causal_LR(data):
     lr_xfit = data.copy()
     lr_xfit['X1*Z'] = lr_xfit['X1'] * lr_xfit['Z'] #Setting interaction term

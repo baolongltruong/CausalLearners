@@ -2,7 +2,13 @@ import numpy as np
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 
-
+def calc_r2(y_true, y_pred):
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+    ss_res = np.sum((y_true - y_pred) ** 2)
+    ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
+    return 1 - (ss_res / ss_tot)
+    
 def evaluate(tau, tau_hat):
     """
     Evaluate the Mean Squared Error (MSE), bias, and R^2 score between tau and tau_hat.
@@ -24,7 +30,7 @@ def evaluate(tau, tau_hat):
     
     mse = np.mean((tau - tau_hat) ** 2)
     bias = np.mean(tau - tau_hat)
-    r2 = r2_score(tau, tau_hat)
+    r2 = calc_r2(tau, tau_hat)
 
     return mse, bias, r2
 
