@@ -78,6 +78,8 @@ def simulation_categorical(n, p, beta, sigma):
     return df
 
 def simulation_XLearner_1(n, p):
+    '''Unbalanced case with a simple CATE'''
+    
     # Covariates X_{ij} ~ N(0, 1)
     X = np.random.normal(0, 1, (n, p))
     
@@ -104,6 +106,7 @@ def sig(x):
     return 2 / (1 + np.exp(-12 * (x - 1/2)))
 
 def simulation_XLearner_2(n,p):
+    ''' Balanced case with complex non-linear CATE'''
     X = np.random.normal(0, 1, (n, p))
     
     # Create DataFrame with covariates
