@@ -1,0 +1,17 @@
+{
+  "test_name": "test2",
+  "iv_name": "Sample Size",
+  "iv_label": "n",
+  "learners": {
+    "LR": "Causal_LR(data)",
+    "X": "Causal_XLearner(data, LinearRegression())",
+    "DR": "Causal_DRLearner(data)",
+    "CF": "Causal_CausalForest(data)",
+    "T": "Causal_TLearner(data, LinearRegression())",
+    "S": "Causal_SLearner(data, LinearRegression())"
+  },
+  "data_str": "simulation_simple(iv, 5, 1, 1)",
+  "iv_list": [100, 500, 1000],
+  "num_sim": 5,
+  "log": true
+}

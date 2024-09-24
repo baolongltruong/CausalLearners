@@ -1,0 +1,17 @@
+{
+  "test_name": "Kunzel1",
+  "iv_name": "Sample Size",
+  "iv_label": "n",
+  "learners": {
+    "LR": "Causal_LR(data)",
+    "X": "Causal_XLearner(data, LinearRegression())",
+    "DR": "Causal_DRLearner(data)",
+    "CF": "Causal_CausalForest(data)",
+    "T": "Causal_TLearner(data, LinearRegression())",
+    "S": "Causal_SLearner(data, LinearRegression())"
+  },
+  "data_str": "simulation_XLearner_1(n = iv,p =  20)",
+  "iv_list": [10000, 15000, 20000],
+  "num_sim": 3,
+  "log": true
+}
