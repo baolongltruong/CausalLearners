@@ -1,3 +1,4 @@
 #ignore pycache and ipynb directories
 __pycache__/
 .ipynb_checkpoints/
+.DS_Store
