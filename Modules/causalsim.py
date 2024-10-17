@@ -77,7 +77,7 @@ def simulation_categorical(n, p, beta, sigma):
     
     return df
 
-def simulation_XLearner_1(n, p):
+def simulation_XLearner_1(n, p=20):
     '''Unbalanced case with a simple CATE'''
     
     # Covariates X_{ij} ~ N(0, 1)
@@ -95,25 +95,27 @@ def simulation_XLearner_1(n, p):
 
     #µ0(x) = xTβ + 5 I(x1 > 0.5), with β ∼ Unif [−5, 5]20
 
-    beta = uniform.rvs(-5, 10, size=p) 
+    beta = np.random.uniform(-5, 10, p) 
     mu0 = np.dot(df[[f'X{i+1}' for i in range(p)]], beta) + 5 * np.where(df['X1'] > 0.5, 1, 0)
     
     df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
     
     return df
 
-def sig(x):
-    return 2 / (1 + np.exp(-12 * (x - 1/2)))
 
-def simulation_XLearner_2(n,p):
-    ''' Balanced case with complex non-linear CATE'''
+
+def simulation_XLearner_2(n,p=20):
+    ''' Balanced case, no confounding, with complex non-linear CATE'''
+    def _sig(x):
+        return 2 / (1 + np.exp(-12 * (x - 1/2)))
+        
     X = np.random.normal(0, 1, (n, p))
     
     # Create DataFrame with covariates
     df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
     
     # µ1(x) = 1/2ς(x1)ς(x2),µ0(x) = −1/2ς(x1)ς(x2)
-    df['tau'] = sig(df['X1'])*sig(df['X2'])
+    df['tau'] = _sig(df['X1'])*_sig(df['X2'])
 
     
     df['Z'] = np.random.binomial(1, 0.5, n)
@@ -122,9 +124,50 @@ def simulation_XLearner_2(n,p):
 
     # µ1(x) = 1/2ς(x1)ς(x2),µ0(x) = −1/2ς(x1)ς(x2)
     
-    df['Y'] =  -1/2*sig(df['X1'])*sig(df['X2']) + df['Z'] * df['tau']  + df['epsilon']
+    df['Y'] =  -1/2*_sig(df['X1'])*_sig(df['X2']) + df['Z'] * df['tau']  + df['epsilon']
+    
     return df
 
+def simulation_XLearner_3(n,p=20):
+    ''' Balanced case, no confounding, with complex linear CATE'''
+    X = np.random.normal(0, 1, (n, p))
+
+    # Create DataFrame with covariates
+    df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
+    
+    #µ1(x) = xTβ1, with β1 ∼ Unif([1, 30]20),µ0(x) = xT β0, with β0 ∼ Unif([1, 30]20).
+
+    mu1 = np.dot(df[[f'X{i+1}' for i in range(p)]], np.random.uniform(1, 30, p))  # µ1(x) = x^T * β1
+    mu0 = np.dot(df[[f'X{i+1}' for i in range(p)]], np.random.uniform(1, 30, p))  # µ0(x) = x^T * β0
+
+    df['tau'] = mu1 - mu0
+    
+    df['Z'] = np.random.binomial(1, 0.5, n)
+    df['epsilon'] = np.random.normal(0, 1, n)
+
+    df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
+    
+    return df
+
+def simulation_XLearner_4(n,p=5):
+    '''No Treatment effect, global linear CATE'''
+    X = np.random.normal(0, 1, (n, p))
+
+    # Create DataFrame with covariates
+    df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
+    
+    #µ1(x) = xTβ1, with β1 ∼ Unif([1, 30]20),µ0(x) = xT β0, with β0 ∼ Unif([1, 30]20).
+
+ 
+    mu0 = np.dot(df[[f'X{i+1}' for i in range(p)]], np.random.uniform(1, 30, p))  # µ0(x) = x^T * β0
+
+    df['tau'] = 0
+    
+    df['Z'] = np.random.binomial(1, 0.5, n)
+    df['epsilon'] = np.random.normal(0, 1, n)
+
+    df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
+    return
     
 def Causal_LR(data):
     lr_xfit = data.copy()

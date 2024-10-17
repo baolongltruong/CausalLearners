@@ -142,7 +142,7 @@ if __name__ == '__main__':
                 for model in models:
                     mean_value = np.mean(res[n][model][metric])
                     std_value = np.std(res[n][model][metric])
-                    print(f"IV: {n}, Model: {model}, Metric: {metric} | Mean: {mean_value}, STD: {std_value}", file=f)
+                    print(f"{config['iv_name']}: {n}, Model: {model}, Metric: {metric} | Mean: {mean_value}, STD: {std_value}", file=f)
 
     #Print time results
     
