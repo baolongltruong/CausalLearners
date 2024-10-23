@@ -103,7 +103,6 @@ def simulation_XLearner_1(n, p=20):
     return df
 
 
-
 def simulation_XLearner_2(n,p=20):
     ''' Balanced case, no confounding, with complex non-linear CATE'''
     def _sig(x):
