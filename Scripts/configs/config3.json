@@ -1,0 +1,17 @@
+{
+  "test_name": "test3",
+  "iv_name": "Covariates",
+  "iv_label": "p",
+  "learners": {
+    "LR": "Causal_LR(data)",
+    "X": "Causal_XLearner(data, LinearRegression())",
+    "DR": "Causal_DRLearner(data)",
+    "CF": "Causal_CausalForest(data)",
+    "T": "Causal_TLearner(data, LinearRegression())",
+    "S": "Causal_SLearner(data, LinearRegression())"
+  },
+  "data_str": "simulation_simple(500, iv, 1, 1)",
+  "iv_list": [1, 5, 10],
+  "num_sim": 3,
+  "log": false
+}
