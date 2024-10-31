@@ -135,7 +135,7 @@ if __name__ == '__main__':
     end_time = time.time()
     
     #Print metric results
-    
+    '''
     models = list(next(iter(res.values())).keys())
     iv = list(res.keys())
     with open(f"results/{config['test_name']}/results.txt", 'w') as f:  # Open the file in write mode
@@ -144,8 +144,30 @@ if __name__ == '__main__':
                 for model in models:
                     mean_value = np.mean(res[n][model][metric])
                     std_value = np.std(res[n][model][metric])
-                    print(f"{config['iv_name']}: {n}, Model: {model}, Metric: {metric} | Mean: {mean_value}, STD: {std_value}", file=f)
-
+                    print(f"{config['iv_name']}: {n}, Model: {model}, Metric: {metric} | Mean: {mean_value}, STD: {std_value}", file=f)'''
+    models = list(next(iter(res.values())).keys())
+    iv = list(res.keys())
+    
+    # Initialize an empty list to collect data
+    data = []
+    
+    # Loop through the results to collect data for the DataFrame
+    for n in iv:
+        for metric in ['mse', 'bias', 'r2']:
+            for model in models:
+                mean_value = np.mean(res[n][model][metric])
+                std_value = np.std(res[n][model][metric])
+                data.append({
+                    config['iv_name']: n,
+                    'Model': model,
+                    'Metric': metric,
+                    'Mean': mean_value,
+                    'STD': std_value
+                })
+    
+    # Convert collected data into a DataFrame
+    df = pd.DataFrame(data)
+    df.to_csv(f"results/{config['test_name']}/results.csv", index=False)
     #Print time results
     
     with open(f"results/{config['test_name']}/time.txt", 'w') as f:

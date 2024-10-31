@@ -14,7 +14,7 @@
     "S (RF)": "Causal_XLearner(data, RandomForestRegressor())"
   },
   "data_str": "simulation_XLearner_3(n = iv)",
-  "iv_list": [100, 500, 1000,2000,10000],
-  "num_sim": 100,
+  "iv_list": [100, 500, 1000],
+  "num_sim": 2,
   "log": true
 }

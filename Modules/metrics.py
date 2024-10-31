@@ -30,7 +30,7 @@ def evaluate(tau, tau_hat):
     
     mse = np.mean((tau - tau_hat) ** 2)
     bias = np.mean(tau - tau_hat)
-    r2 = calc_r2(tau, tau_hat)
+    r2 = r2_score(tau, tau_hat)
 
     return mse, bias, r2
 

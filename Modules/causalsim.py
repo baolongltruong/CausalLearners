@@ -154,8 +154,6 @@ def simulation_XLearner_4(n,p=5):
 
     # Create DataFrame with covariates
     df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
-    
-    #µ1(x) = xTβ1, with β1 ∼ Unif([1, 30]20),µ0(x) = xT β0, with β0 ∼ Unif([1, 30]20).
 
  
     mu0 = np.dot(df[[f'X{i+1}' for i in range(p)]], np.random.uniform(1, 30, p))  # µ0(x) = x^T * β0
@@ -166,7 +164,7 @@ def simulation_XLearner_4(n,p=5):
     df['epsilon'] = np.random.normal(0, 1, n)
 
     df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
-    return
+    return df
     
 def Causal_LR(data):
     lr_xfit = data.copy()
