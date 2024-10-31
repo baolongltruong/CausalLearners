@@ -1,0 +1,20 @@
+{
+  "test_name": "Kunzel2",
+  "iv_name": "Sample Size",
+  "iv_label": "n",
+  "learners": {
+    "LR": "Causal_LR(data)",
+    "X (LR)": "Causal_XLearner(data, LinearRegression())",
+    "DR": "Causal_DRLearner(data)",
+    "CF": "Causal_CausalForest(data)",
+    "T (LR)": "Causal_TLearner(data, LinearRegression())",
+    "S (LR)": "Causal_SLearner(data, LinearRegression())",
+    "X (RF)": "Causal_XLearner(data, RandomForestRegressor())",
+    "T (RF)": "Causal_XLearner(data, RandomForestRegressor())",
+    "S (RF)": "Causal_XLearner(data, RandomForestRegressor())"
+  },
+  "data_str": "simulation_XLearner_2(n = iv)",
+  "iv_list": [100, 500, 1000,2000,10000],
+  "num_sim": 100,
+  "log": true
+}
