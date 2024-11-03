@@ -3,6 +3,7 @@ import os
 import argparse
 import json
 import time
+import gc
 
 sys.path.append(os.path.join(os.getcwd(),'Modules'))
 curdir = os.chdir('Scripts')
@@ -56,7 +57,9 @@ def run_experiment(learners, data_str, num_sim):
             #Timing
             end_time = time.perf_counter()
             execution_times[learner].append(end_time - start_time)
-            
+        
+        #Garbage collection
+        gc.collect()
         
     
     return metrics_result, execution_times

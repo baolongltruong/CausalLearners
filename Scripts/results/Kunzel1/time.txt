@@ -1,0 +1,35 @@
+Total Time: 27282.708144426346
+
+Mean execution times for IV = 1000
+
+LR: 0.0036 seconds
+X (LR): 0.0116 seconds
+DR: 3.4671 seconds
+CF: 4.2715 seconds
+T (LR): 0.0064 seconds
+S (LR): 0.0058 seconds
+X (RF): 3.0514 seconds
+T (RF): 3.0489 seconds
+S (RF): 3.0539 seconds
+Mean execution times for IV = 2000
+
+LR: 0.0038 seconds
+X (LR): 0.0136 seconds
+DR: 7.3146 seconds
+CF: 9.0352 seconds
+T (LR): 0.0074 seconds
+S (LR): 0.0064 seconds
+X (RF): 6.5504 seconds
+T (RF): 6.5582 seconds
+S (RF): 6.5524 seconds
+Mean execution times for IV = 10000
+
+LR: 0.0053 seconds
+X (LR): 0.0278 seconds
+DR: 45.1799 seconds
+CF: 57.4547 seconds
+T (LR): 0.0134 seconds
+S (LR): 0.0136 seconds
+X (RF): 38.9351 seconds
+T (RF): 38.9511 seconds
+S (RF): 38.9564 seconds
