@@ -174,6 +174,7 @@ if __name__ == '__main__':
     #Print time results
     
     with open(f"results/{config['test_name']}/time.txt", 'w') as f:
+        f.write(f"Num Sim: {config['num_sim']}\n\n")
         f.write(f"Total Time: {end_time - start_time}\n\n")
         for iv in time_res:
             mean_execution_times = {learner: np.mean(time_res[iv][learner]) for learner in config['learners']}

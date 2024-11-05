@@ -11,6 +11,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 from scipy.stats import uniform
+from scipy.stats import beta
 
 
 def simulation_simple(n, p, beta, sigma):
@@ -164,6 +165,31 @@ def simulation_XLearner_4(n,p=5):
     df['epsilon'] = np.random.normal(0, 1, n)
 
     df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
+    return df
+
+
+def simulation_XLearner_5(n, p=20):
+    '''Beta Confounded Case with non-constant propensity score '''
+    X = np.random.uniform(0, 1, (n, p))
+    
+    # Create DataFrame with covariates
+    df = pd.DataFrame(X, columns=[f'X{i+1}' for i in range(p)])
+    
+    # μ0(x) = 2x1 − 1, μ1(x) = μ0(x).
+    mu0 = 2 * df['X1'] - 1
+  
+    
+    # Define propensity score e(x) with Beta(2, 4) distribution for confounding
+    beta_vals = beta.rvs(2, 4, size=n)
+    df['e_x'] = 1 / 4 * (1 + beta_vals)  # e(x) = 1/4 * (1 + β(x1,2,4))
+    
+    df['tau'] = 0
+    
+    df['Z'] = np.random.binomial(1, df['e_x'])
+    df['epsilon'] = np.random.normal(0, 1, n)
+    
+    df['Y'] = mu0] + df['Z'] * df['tau'] + df['epsilon']
+    
     return df
     
 def Causal_LR(data):
