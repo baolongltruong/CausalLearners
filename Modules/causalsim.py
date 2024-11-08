@@ -188,7 +188,7 @@ def simulation_XLearner_5(n, p=20):
     df['Z'] = np.random.binomial(1, df['e_x'])
     df['epsilon'] = np.random.normal(0, 1, n)
     
-    df['Y'] = mu0] + df['Z'] * df['tau'] + df['epsilon']
+    df['Y'] = mu0 + df['Z'] * df['tau'] + df['epsilon']
     
     return df
     
