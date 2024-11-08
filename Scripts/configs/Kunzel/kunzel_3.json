@@ -10,11 +10,11 @@
     "T (LR)": "Causal_TLearner(data, LinearRegression())",
     "S (LR)": "Causal_SLearner(data, LinearRegression())",
     "X (RF)": "Causal_XLearner(data, RandomForestRegressor(max_depth=20))",
-    "T (RF)": "Causal_XLearner(data, RandomForestRegressor(max_depth=20))",
-    "S (RF)": "Causal_XLearner(data, RandomForestRegressor(max_depth=20))"
+    "T (RF)": "Causal_TLearner(data, RandomForestRegressor(max_depth=20))",
+    "S (RF)": "Causal_SLearner(data, RandomForestRegressor(max_depth=20))"
   },
   "data_str": "simulation_XLearner_3(n = iv)",
   "iv_list": [100, 500, 1000, 2000, 10000],
-  "num_sim": 100,
+  "num_sim": 20,
   "log": true
 }
