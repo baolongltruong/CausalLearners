@@ -1,57 +1,59 @@
-Total Time: 28204.69934153557
+Num Sim: 100
+
+Total Time: 24454.202929019928
 
 Mean execution times for IV = 100
 
-LR: 0.0031 seconds
-X (LR): 0.0096 seconds
-DR: 0.8875 seconds
-CF: 0.9688 seconds
-T (LR): 0.0057 seconds
-S (LR): 0.0046 seconds
-X (RF): 0.4801 seconds
-T (RF): 0.4801 seconds
-S (RF): 0.4802 seconds
+LR: 0.0033 seconds
+X (LR): 0.0102 seconds
+DR: 0.9258 seconds
+CF: 0.9894 seconds
+T (LR): 0.0059 seconds
+S (LR): 0.0048 seconds
+X (RF): 0.5055 seconds
+T (RF): 0.2532 seconds
+S (RF): 0.1778 seconds
 Mean execution times for IV = 500
 
-LR: 0.0034 seconds
-X (LR): 0.0102 seconds
-DR: 2.1605 seconds
-CF: 2.3797 seconds
-T (LR): 0.0062 seconds
-S (LR): 0.0051 seconds
-X (RF): 1.4006 seconds
-T (RF): 1.4036 seconds
-S (RF): 1.4007 seconds
+LR: 0.0035 seconds
+X (LR): 0.0106 seconds
+DR: 2.1951 seconds
+CF: 2.4245 seconds
+T (LR): 0.0063 seconds
+S (LR): 0.0052 seconds
+X (RF): 1.4323 seconds
+T (RF): 0.7165 seconds
+S (RF): 0.7350 seconds
 Mean execution times for IV = 1000
 
-LR: 0.0037 seconds
-X (LR): 0.0114 seconds
-DR: 4.1380 seconds
-CF: 4.6544 seconds
-T (LR): 0.0069 seconds
-S (LR): 0.0059 seconds
-X (RF): 2.8817 seconds
-T (RF): 2.8789 seconds
-S (RF): 2.8834 seconds
+LR: 0.0036 seconds
+X (LR): 0.0112 seconds
+DR: 4.1293 seconds
+CF: 4.6005 seconds
+T (LR): 0.0068 seconds
+S (LR): 0.0057 seconds
+X (RF): 2.8348 seconds
+T (RF): 1.4181 seconds
+S (RF): 1.5551 seconds
 Mean execution times for IV = 2000
 
 LR: 0.0037 seconds
-X (LR): 0.0123 seconds
-DR: 8.3422 seconds
-CF: 9.3906 seconds
+X (LR): 0.0124 seconds
+DR: 8.4213 seconds
+CF: 9.5004 seconds
 T (LR): 0.0074 seconds
-S (LR): 0.0064 seconds
-X (RF): 5.8863 seconds
-T (RF): 5.8844 seconds
-S (RF): 5.8811 seconds
+S (LR): 0.0063 seconds
+X (RF): 5.9352 seconds
+T (RF): 2.9681 seconds
+S (RF): 3.3401 seconds
 Mean execution times for IV = 10000
 
-LR: 0.0051 seconds
-X (LR): 0.0223 seconds
-DR: 50.7790 seconds
-CF: 59.1865 seconds
-T (LR): 0.0126 seconds
-S (LR): 0.0136 seconds
-X (RF): 35.5088 seconds
-T (RF): 35.5256 seconds
-S (RF): 35.5205 seconds
+LR: 0.0053 seconds
+X (LR): 0.0237 seconds
+DR: 52.5122 seconds
+CF: 61.0059 seconds
+T (LR): 0.0131 seconds
+S (LR): 0.0140 seconds
+X (RF): 36.5181 seconds
+T (RF): 18.2336 seconds
+S (RF): 20.5583 seconds
