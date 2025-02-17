@@ -192,7 +192,7 @@ def simulation_XLearner_5(n, p=20):
     
     return df
     
-def Causal_LR(data):
+def Causal_LR_old(data):
     lr_xfit = data.copy()
     lr_xfit['X1*Z'] = lr_xfit['X1'] * lr_xfit['Z'] #Setting interaction term
     lr_xfit = lr_xfit[['X1', 'Z', 'X1*Z']]
@@ -206,7 +206,7 @@ def Causal_LR(data):
     tau_hat_lr = bz + bzx*data['X1']
     return tau_hat_lr
 
-def Causal_XLearner(data, models):
+def Causal_XLearner_old(data, models):
     
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
@@ -216,7 +216,7 @@ def Causal_XLearner(data, models):
     tau_hat_x = est.effect(X)
     return tau_hat_x
 
-def Causal_SLearner(data, models):
+def Causal_SLearner_old(data, models):
 
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
@@ -226,7 +226,7 @@ def Causal_SLearner(data, models):
     tau_hat_s = est.effect(X)
     return tau_hat_s
 
-def Causal_TLearner(data, models):
+def Causal_TLearner_old(data, models):
    
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
@@ -236,7 +236,7 @@ def Causal_TLearner(data, models):
     tau_hat_t = est.effect(X)
     return tau_hat_t
 
-def Causal_DRLearner(data):
+def Causal_DRLearner_old(data):
 
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
@@ -246,7 +246,7 @@ def Causal_DRLearner(data):
     tau_hat_dr = est.effect(X)
     return tau_hat_dr
 
-def Causal_CausalForest(data):
+def Causal_CausalForest_old(data):
     
     X = data[[col for col in data.columns if col.startswith('X')]]
     T = data['Z'] #treatment indicator
@@ -255,4 +255,82 @@ def Causal_CausalForest(data):
     est.fit(y, T, X=X, W=None)
     tau_hat_cf = est.effect(X)
 
+    return tau_hat_cf
+
+def Causal_LR(train_data, test_data):
+    lr_xfit = train_data.copy()
+    lr_xfit['X1*Z'] = lr_xfit['X1'] * lr_xfit['Z']  # Setting interaction term
+    lr_xfit = lr_xfit[['X1', 'Z', 'X1*Z']]
+    
+    lr = LinearRegression()
+    lr.fit(lr_xfit, train_data['Y'])
+    
+    test_xfit = test_data.copy()
+    test_xfit['X1*Z'] = test_xfit['X1'] * test_xfit['Z']
+    test_xfit = test_xfit[['X1', 'Z', 'X1*Z']]
+    
+    bz = lr.coef_[1]
+    bzx = lr.coef_[2]
+    
+    tau_hat_lr = bz + bzx * test_data['X1']
+    return tau_hat_lr
+
+def Causal_XLearner(train_data, test_data, models):
+    X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    T_train = train_data['Z']
+    y_train = train_data['Y']
+    
+    X_test = test_data[[col for col in test_data.columns if col.startswith('X')]]
+    
+    est = XLearner(models=models)
+    est.fit(y_train, T_train, X=X_train)
+    tau_hat_x = est.effect(X_test)
+    return tau_hat_x
+
+def Causal_SLearner(train_data, test_data, models):
+    X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    T_train = train_data['Z']
+    y_train = train_data['Y']
+    
+    X_test = test_data[[col for col in test_data.columns if col.startswith('X')]]
+    
+    est = SLearner(overall_model=models)
+    est.fit(y_train, T_train, X=X_train)
+    tau_hat_s = est.effect(X_test)
+    return tau_hat_s
+
+def Causal_TLearner(train_data, test_data, models):
+    X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    T_train = train_data['Z']
+    y_train = train_data['Y']
+    
+    X_test = test_data[[col for col in test_data.columns if col.startswith('X')]]
+    
+    est = TLearner(models=models)
+    est.fit(y_train, T_train, X=X_train)
+    tau_hat_t = est.effect(X_test)
+    return tau_hat_t
+
+def Causal_DRLearner(train_data, test_data):
+    X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    T_train = train_data['Z']
+    y_train = train_data['Y']
+    
+    X_test = test_data[[col for col in test_data.columns if col.startswith('X')]]
+    
+    est = DRLearner()
+    est.fit(y_train, T_train, X=X_train, W=None)
+    tau_hat_dr = est.effect(X_test)
+    return tau_hat_dr
+
+def Causal_CausalForest(train_data, test_data):
+    X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    T_train = train_data['Z']
+    y_train = train_data['Y']
+    
+    X_test = test_data[[col for col in test_data.columns if col.startswith('X')]]
+    
+    est = CausalForestDML(discrete_treatment=True)
+    est.fit(y_train, T_train, X=X_train, W=None)
+    tau_hat_cf = est.effect(X_test)
     return tau_hat_cf

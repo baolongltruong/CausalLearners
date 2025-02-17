@@ -23,13 +23,12 @@ from scipy.stats import uniform
 
 
 
-def run_experiment(learners, data_str, num_sim):
-
+def run_experiment(learners, train_data_str, test_data_str, iv, num_sim):
     '''n = n  # Number of individuals
     p = p     # Number of covariates
     beta = beta  # Beta_1 value for treatment effect
     sigma = sigma # Sigma value for noise term'''
-
+    
     metrics_result = {}
     for learner in learners:
             metrics_result[learner] = {'mse': [], 'bias': [], 'r2': []}
@@ -38,8 +37,9 @@ def run_experiment(learners, data_str, num_sim):
     execution_times = {learner: [] for learner in learners}
     
     for i in range(num_sim):
-        data = eval(data_str)
-        tau = np.array(data['tau'])
+        train_data = eval(train_data_str)
+        test_data = eval(test_data_str)
+        tau = np.array(test_data['tau'])
 
         for learner in learners:
             start_time = time.perf_counter()
@@ -130,10 +130,10 @@ if __name__ == '__main__':
     time_res = {}
     for iv in config['iv_list']:
         print(f"Run: {iv}")
-        res[iv], time_res[iv] = run_experiment(config['learners'], config['data_str'], config['num_sim'])
+        res[iv], time_res[iv] = run_experiment(config['learners'], config['train_data_str'], config['test_data_str'], iv, config['num_sim'])
     
-    for metric in ['mse', 'bias', 'r2']:
-        plot_metric(metric, res, config['iv_name'], config['iv_label'], config['test_name'], config['log'])
+    '''for metric in ['mse', 'bias', 'r2']:
+        plot_metric(metric, res, config['iv_name'], config['iv_label'], config['test_name'], config['log'])'''
         
     end_time = time.time()
     
@@ -170,7 +170,10 @@ if __name__ == '__main__':
     
     # Convert collected data into a DataFrame
     df = pd.DataFrame(data)
+    os.makedirs(f"results/{config['test_name']}", exist_ok=True)
     df.to_csv(f"results/{config['test_name']}/results.csv", index=False)
+    with open(f"results/{config['test_name']}/individual.json", "w") as f:
+        json.dump(res, f)
     #Print time results
     
     with open(f"results/{config['test_name']}/time.txt", 'w') as f:

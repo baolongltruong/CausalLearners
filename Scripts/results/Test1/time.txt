@@ -1,0 +1,22 @@
+Num Sim: 50
+
+Total Time: 61.81315040588379
+
+Mean execution times for IV = 10000
+
+LR: 0.0353 seconds
+X: 0.0617 seconds
+T: 0.0425 seconds
+S: 0.0674 seconds
+Mean execution times for IV = 20000
+
+LR: 0.0375 seconds
+X: 0.0779 seconds
+T: 0.0481 seconds
+S: 0.0737 seconds
+Mean execution times for IV = 30000
+
+LR: 0.0411 seconds
+X: 0.0956 seconds
+T: 0.0543 seconds
+S: 0.0808 seconds
