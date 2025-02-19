@@ -5,6 +5,10 @@ import json
 import time
 import gc
 
+'''#Bug with DR-Learner where predictions are way off, happens randomly even for same dataset. 
+if metric_i[0] < -50000 or metric_i[0] > 50000:
+    continue'''
+
 sys.path.append(os.path.join(os.getcwd(),'Modules'))
 curdir = os.chdir('Scripts')
 
@@ -46,9 +50,6 @@ def run_experiment(learners, train_data_str, test_data_str, iv, num_sim):
             tau_hat = eval(learners[learner])
             metric_i = metrics.evaluate(tau, tau_hat)
 
-            #Bug with DR-Learner where predictions are way off, happens randomly even for same dataset. 
-            if metric_i[0] < -50000 or metric_i[0] > 50000:
-                continue
                 
             metrics_result[learner]['mse'].append(metric_i[0])
             metrics_result[learner]['bias'].append(metric_i[1])
@@ -160,12 +161,16 @@ if __name__ == '__main__':
             for model in models:
                 mean_value = np.mean(res[n][model][metric])
                 std_value = np.std(res[n][model][metric])
+                mad_value = np.mean(np.abs(res[n][model][metric] - np.mean(res[n][model][metric]))) 
+                median_value = np.median(res[n][model][metric])  
                 data.append({
                     config['iv_name']: n,
                     'Model': model,
                     'Metric': metric,
                     'Mean': mean_value,
-                    'STD': std_value
+                    'STD': std_value,
+                    'Median': median_value,
+                    'MAD': mad_value
                 })
     
     # Convert collected data into a DataFrame

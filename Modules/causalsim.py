@@ -277,6 +277,7 @@ def Causal_LR(train_data, test_data):
 
 def Causal_XLearner(train_data, test_data, models):
     X_train = train_data[[col for col in train_data.columns if col.startswith('X')]]
+    #print(train_data['Z'].value_counts())
     T_train = train_data['Z']
     y_train = train_data['Y']
     

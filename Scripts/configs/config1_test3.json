@@ -1,5 +1,5 @@
 {
-  "test_name": "Test 1 Small Sample",
+  "test_name": "Test 1 Medium Sample",
   "iv_name": "Sample Size",
   "iv_label": "n",
   "learners": {
@@ -10,7 +10,7 @@
   },
   "train_data_str": "simulation_XLearner_1(n = iv,p =  20)",
   "test_data_str": "simulation_XLearner_1(n = 100000,p =  20)",
-  "iv_list": [1000, 2000, 3000],
+  "iv_list": [1000, 1500, 2000, 3000, 10000],
   "num_sim": 50,
   "log": true
 }
